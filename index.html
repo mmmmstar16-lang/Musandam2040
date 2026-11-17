@@ -2,221 +2,83 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>مسندم 2040</title>
-
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      overflow: hidden;
-    }
-
-    .welcome {
-      position: fixed;
-      top: 12px;
-      left: 0;
-      right: 0;
-      z-index: 10;
-      text-align: center;
-      color: white;
-      font-size: 20px;
-      font-weight: bold;
-      text-shadow: 1px 1px 4px black;
-      pointer-events: none;
-    }
-
-    #menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 20;
-      background: rgba(0, 20, 35, 0.88);
-      color: white;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      padding: 20px;
-      text-align: center;
-    }
-
-    #menu h2 {
-      font-size: 27px;
-      margin-bottom: 10px;
-    }
-
-    #menu p {
-      font-size: 16px;
-      margin-bottom: 25px;
-    }
-
-    .scene-button {
-      width: 90%;
-      max-width: 340px;
-      padding: 17px;
-      margin: 9px;
-      border: 1px solid #d6b77b;
-      border-radius: 14px;
-      background: #174d60;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .scene-button:active {
-      background: #26748b;
-    }
-
-    #viewer {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 30;
-      background: #000;
-    }
-
-    #viewer iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    #viewerControls {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      left: 12px;
-      z-index: 40;
-      display: flex;
-      gap: 8px;
-      justify-content: space-between;
-    }
-
-    .control-button {
-      padding: 12px 17px;
-      border: 0;
-      border-radius: 10px;
-      background: #174d60;
-      color: white;
-      font-size: 15px;
-      cursor: pointer;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مسندم 2040</title>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+<style>
+body{margin:0;font-family:Arial;background:#102b38;color:white;text-align:center}
+#menu{display:none;position:fixed;inset:0;background:#102b38;z-index:10;padding:20px;box-sizing:border-box;overflow:auto}
+h2{margin:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:600px;margin:25px auto}
+.place{min-height:130px;border:2px solid #d8bd83;border-radius:16px;background:linear-gradient(145deg,#23677a,#153d50);color:white;font-size:20px;font-weight:bold;padding:15px;cursor:pointer}
+.place:disabled{opacity:.5;cursor:not-allowed}
+#viewer{display:none;position:fixed;inset:0;background:#102b38;z-index:20}
+#viewer iframe{width:100%;height:100%;border:0}
+#back{position:absolute;top:15px;right:15px;z-index:2;padding:12px 20px;border:0;border-radius:10px;background:#d8bd83;color:#102b38;font-weight:bold}
+#hint{position:fixed;bottom:15px;left:10px;right:10px;z-index:5;background:#102b38;padding:10px}
+</style>
 </head>
-
 <body>
-
-<div class="welcome">مسندم 2040 | مستقبل عُمان</div>
-
-<!-- قائمة المشاهد -->
 <div id="menu">
-  <h2>اكتشف مسندم 2040</h2>
-  <p>اختر المكان الذي ترغب في استكشافه</p>
-
-  <button class="scene-button" onclick="openScene(1)">
-    المشهد الأول
-  </button>
-
-  <button class="scene-button" onclick="openScene(2)">
-    المشهد الثاني
-  </button>
+<h2>مسندم 2040</h2>
+<p>اختاري وجهتك المستقبلية</p>
+<div class="grid">
+<button class="place" onclick="openScene(1)">⚓<br>المرسى السياحي</button>
+<button class="place" onclick="openScene(2)">🏖️<br>المنتجع الساحلي</button>
+<button class="place" disabled>⛰️<br>المنتجع الجبلي<br><small>قريبًا</small></button>
+<button class="place" disabled>🏔️<br>مركز زوار قمة الجبل<br><small>قريبًا</small></button>
+</div>
 </div>
 
-<!-- شاشة المشهد التفاعلي -->
 <div id="viewer">
-  <div id="viewerControls">
-    <button class="control-button" onclick="backToMenu()">
-      رجوع للمشاهد
-    </button>
-
-    <a id="externalLink"
-       class="control-button"
-       href="#"
-       target="_blank"
-       rel="noopener">
-       فتح خارج الموقع
-    </a>
-  </div>
-
-  <iframe
-    id="sceneFrame"
-    src="about:blank"
-    allow="fullscreen; gyroscope; accelerometer"
-    allowfullscreen>
-  </iframe>
+<button id="back" onclick="goBack()">العودة للأماكن</button>
+<iframe id="scene" allowfullscreen></iframe>
 </div>
 
-<!-- الواقع المعزز -->
+<div id="hint">وجّهي الكاميرا نحو صورة مسندم 2040</div>
+
 <a-scene
-  mindar-image="imageTargetSrc: ./targets.mind;"
-  color-space="sRGB"
-  renderer="colorManagement: true"
-  vr-mode-ui="enabled: false"
-  device-orientation-permission-ui="enabled: false">
-
-  <a-camera
-    position="0 0 0"
-    look-controls="enabled: false">
-  </a-camera>
-
-  <a-entity mindar-image-target="targetIndex: 0">
-  </a-entity>
-
+mindar-image="imageTargetSrc: ./targets.mind; autoStart: true;"
+color-space="sRGB"
+renderer="colorManagement: true, physicallyCorrectLights"
+vr-mode-ui="enabled: false"
+device-orientation-permission-ui="enabled: true">
+<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+<a-entity mindar-image-target="targetIndex: 0" id="target"></a-entity>
 </a-scene>
 
 <script>
-  const menu = document.getElementById("menu");
-  const viewer = document.getElementById("viewer");
-  const sceneFrame = document.getElementById("sceneFrame");
-  const externalLink = document.getElementById("externalLink");
+const menu=document.getElementById('menu');
+const viewer=document.getElementById('viewer');
+const scene=document.getElementById('scene');
+const hint=document.getElementById('hint');
 
-  const scenes = {
-    1: "https://panoramagenerator.com/embed/eslcvNY4YJ",
-    2: "https://www.panocraft.si/viewer/2d8de6fe-45fb-4aaf-a180-eb415d5a2af9"
-  };
+document.querySelector('#target').addEventListener('targetFound',()=>{
+ menu.style.display='block';
+ hint.style.display='none';
+});
 
-  function openScene(number) {
-    const url = scenes[number];
+document.querySelector('#target').addEventListener('targetLost',()=>{
+ if(viewer.style.display!=='block'){
+  menu.style.display='none';
+  hint.style.display='block';
+ }
+});
 
-    sceneFrame.src = url;
-    externalLink.href = url;
-
-    menu.style.display = "none";
-    viewer.style.display = "block";
-  }
-
-  function backToMenu() {
-    viewer.style.display = "none";
-    sceneFrame.src = "about:blank";
-    menu.style.display = "flex";
-  }
-
-  const target = document.querySelector(
-    '[mindar-image-target]'
-  );
-
-  target.addEventListener("targetFound", () => {
-    if (viewer.style.display !== "block") {
-      menu.style.display = "flex";
-    }
-  });
-
-  target.addEventListener("targetLost", () => {
-    if (viewer.style.display !== "block") {
-      menu.style.display = "none";
-    }
-  });
+function openScene(n){
+ menu.style.display='none';
+ viewer.style.display='block';
+ scene.src=n===1
+ ?'https://panoramagenerator.com/embed/eslcvNY4YJ'
+ :'https://www.panocraft.si/viewer/2d8de6fe-45fb-4aaf-a180-eb415d5a2af9';
+}
+function goBack(){
+ scene.src='about:blank';
+ viewer.style.display='none';
+ menu.style.display='block';
+}
 </script>
-
 </body>
-</html> 
+</html>
