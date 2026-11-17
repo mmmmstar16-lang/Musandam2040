@@ -5,79 +5,179 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>مسندم 2040</title>
+
 <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
 <style>
-body{margin:0;font-family:Arial;background:#102b38;color:white;text-align:center}
-#menu{display:none;position:fixed;inset:0;background:#102b38;z-index:10;padding:20px;box-sizing:border-box;overflow:auto}
-h2{margin:12px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:600px;margin:25px auto}
-.place{min-height:130px;border:2px solid #d8bd83;border-radius:16px;background:linear-gradient(145deg,#23677a,#153d50);color:white;font-size:20px;font-weight:bold;padding:15px;cursor:pointer}
-.place:disabled{opacity:.5;cursor:not-allowed}
-#viewer{display:none;position:fixed;inset:0;background:#102b38;z-index:20}
-#viewer iframe{width:100%;height:100%;border:0}
-#back{position:absolute;top:15px;right:15px;z-index:2;padding:12px 20px;border:0;border-radius:10px;background:#d8bd83;color:#102b38;font-weight:bold}
-#hint{position:fixed;bottom:15px;left:10px;right:10px;z-index:5;background:#102b38;padding:10px}
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #102b38;
+  color: white;
+  text-align: center;
+}
+
+#menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #102b38;
+  z-index: 10;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+h2 { margin: 12px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  max-width: 600px;
+  margin: 25px auto;
+}
+
+.place {
+  min-height: 130px;
+  border: 2px solid #d8bd83;
+  border-radius: 16px;
+  background: linear-gradient(145deg,#23677a,#153d50);
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.place:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+#viewer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: #102b38;
+  z-index: 20;
+}
+
+#viewer iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+#back {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 2;
+  padding: 12px 20px;
+  border: 0;
+  border-radius: 10px;
+  background: #d8bd83;
+  color: #102b38;
+  font-weight: bold;
+}
+
+#hint {
+  position: fixed;
+  bottom: 15px;
+  left: 10px;
+  right: 10px;
+  z-index: 5;
+  background: #102b38;
+  padding: 10px;
+}
 </style>
 </head>
+
 <body>
+
 <div id="menu">
-<h2>مسندم 2040</h2>
-<p>اختاري وجهتك المستقبلية</p>
-<div class="grid">
-<button class="place" onclick="openScene(1)">⚓<br>المرسى السياحي</button>
-<button class="place" onclick="openScene(2)">🏖️<br>المنتجع الساحلي</button>
-<button class="place" disabled>⛰️<br>المنتجع الجبلي<br><small>قريبًا</small></button>
-<button class="place" disabled>🏔️<br>مركز زوار قمة الجبل<br><small>قريبًا</small></button>
-</div>
+  <h2>مسندم 2040</h2>
+  <p>اختاري وجهتك المستقبلية</p>
+
+  <div class="grid">
+    <button class="place" onclick="openScene(1)">
+      ⚓<br>المرسى السياحي
+    </button>
+
+    <button class="place" onclick="openScene(2)">
+      🏖️<br>المنتجع الساحلي
+    </button>
+
+    <button class="place" disabled>
+      ⛰️<br>المنتجع الجبلي<br><small>قريبًا</small>
+    </button>
+
+    <button class="place" disabled>
+      🏔️<br>مركز زوار قمة الجبل<br><small>قريبًا</small>
+    </button>
+  </div>
 </div>
 
 <div id="viewer">
-<button id="back" onclick="goBack()">العودة للأماكن</button>
-<iframe id="scene" allowfullscreen></iframe>
+  <button id="back" onclick="goBack()">العودة للأماكن</button>
+  <iframe id="scene" allowfullscreen></iframe>
 </div>
 
 <div id="hint">وجّهي الكاميرا نحو صورة مسندم 2040</div>
 
 <a-scene
-mindar-image="imageTargetSrc: ./targets.mind; autoStart: true;"
-color-space="sRGB"
-renderer="colorManagement: true, physicallyCorrectLights"
-vr-mode-ui="enabled: false"
-device-orientation-permission-ui="enabled: true">
-<a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-<a-entity mindar-image-target="targetIndex: 0" id="target"></a-entity>
+  mindar-image="imageTargetSrc: ./targets.mind; autoStart: true;"
+  color-space="sRGB"
+  renderer="colorManagement: true, physicallyCorrectLights"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: true">
+
+  <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+  <a-entity mindar-image-target="targetIndex: 0" id="target"></a-entity>
+
 </a-scene>
 
 <script>
-const menu=document.getElementById('menu');
-const viewer=document.getElementById('viewer');
-const scene=document.getElementById('scene');
-const hint=document.getElementById('hint');
+const menu = document.getElementById('menu');
+const viewer = document.getElementById('viewer');
+const scene = document.getElementById('scene');
+const hint = document.getElementById('hint');
 
-document.querySelector('#target').addEventListener('targetFound',()=>{
- menu.style.display='block';
- hint.style.display='none';
+document.querySelector('#target').addEventListener('targetFound', () => {
+  menu.style.display = 'block';
+  hint.style.display = 'none';
 });
 
-document.querySelector('#target').addEventListener('targetLost',()=>{
- if(viewer.style.display!=='block'){
-  menu.style.display='none';
-  hint.style.display='block';
- }
+document.querySelector('#target').addEventListener('targetLost', () => {
+  if (viewer.style.display !== 'block') {
+    menu.style.display = 'none';
+    hint.style.display = 'block';
+  }
 });
 
-function openScene(n){
- menu.style.display='none';
- viewer.style.display='block';
- scene.src=n===1
- ?'https://panoramagenerator.com/embed/eslcvNY4YJ'
-window.open("https://www.360easyvr.com/ar/gallery/new-vrview/20189?sceneId=39403&backUrl=%2Fgallery%2Fme", "_blank"); 
-function goBack(){
- scene.src='about:blank';
- viewer.style.display='none';
- menu.style.display='block';
+function openScene(n) {
+  if (n === 1) {
+    menu.style.display = 'none';
+    viewer.style.display = 'block';
+    scene.src = 'https://panoramagenerator.com/embed/eslcvNY4YJ';
+  }
+
+  if (n === 2) {
+    window.open(
+      'https://www.360easyvr.com/ar/gallery/new-vrview/20189?sceneId=39403&backUrl=%2Fgallery%2Fme',
+      '_blank'
+    );
+  }
+}
+
+function goBack() {
+  scene.src = 'about:blank';
+  viewer.style.display = 'none';
+  menu.style.display = 'block';
 }
 </script>
+
 </body>
 </html>
